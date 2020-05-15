@@ -32,21 +32,33 @@ const addNumber = () => {
   console.log(emptySquares);
 };
 
-const addMouseMoveListener = () => {
-  document.addEventListener("pointermove", (event) => {
-    console.log(event.pageX); // compar pagex to initial coord, when difference reaches 100px or smth, fire
-  });
-  const x = event.clientX;
-  const y = event.clientY;
-  console.log(x, y);
-};
-
 document.getElementById("start").addEventListener("click", addNumber);
 
-document
-  .getElementById("main-block")
-  .addEventListener("pointerdown", addMouseMoveListener);
+const gameBoard = document.getElementById("main-block");
 
-// const cont = document.querySelector(".game-container");
+// 2. runs func for pointerdown
 
-// cont.onmousedown = addMouseMoveListener;
+const func = () => {
+  console.log(event.pageX);
+  const x = event.pageX;
+
+  // 4. runs func for pointermove
+
+  const func2 = () => {
+    if (event.pageX > 200) {
+      console.log(event.pageX);
+      console.log(x);
+    } else {
+      gameBoard.removeEventListener("pointermove", func2);
+    }
+  };
+
+  //  3. adds listener for pointermove
+  gameBoard.addEventListener("pointermove", func2);
+};
+
+// 1.Adds listener for a click
+
+gameBoard.addEventListener("pointerdown", func, false);
+
+// gotta add bool for mousedown
