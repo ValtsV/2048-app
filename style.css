@@ -19,6 +19,55 @@
   opacity: 1;
 }
 
-.black {
-  background-color: turquoise;
+.square-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid turquoise;
+  border-radius: 5px;
+  overflow: auto;
+  opacity: 1;
+  bottom: 0;
+  position: relative;
+  -webkit-transition: all 3s linear;
+  -moz-transition: all 3s linear;
+  -o-transition: all 3s linear;
+  transition: all 3s linear;
+}
+
+.up1 {
+  position: relative;
+  bottom: 25vw;
+}
+
+.up2 {
+  position: relative;
+  -webkit-transition: all 3s linear;
+  -moz-transition: all 3s linear;
+  -o-transition: all 3s linear;
+  transition: all 3s linear;
+}
+
+.square-bottom.transition {
+  bottom: 50vw;
+}
+
+.up3 {
+  position: relative;
+  bottom: 75vw;
+}
+
+.left1 {
+  position: relative;
+  right: 25vw;
+}
+
+.left2 {
+  position: relative;
+  right: 50vw;
+}
+
+.left3 {
+  position: relative;
+  right: 75vw;
 }
