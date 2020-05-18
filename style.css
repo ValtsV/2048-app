@@ -16,6 +16,7 @@
   border: 2px solid turquoise;
   border-radius: 5px;
   overflow: auto;
+  opacity: 1;
 }
 
 .black {
