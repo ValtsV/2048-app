@@ -43,20 +43,21 @@ const updateGameboard = (direction) => {
   squares.forEach((square) => {
     const gameSquare = document.getElementById(`s${square.id}`);
 
-    gameSquare.classList.add(direction + gameSquare.posChange);
+    gameSquare.classList.add(direction + square.posChange);
     //get element with that id
     //add class depending on posChange and changeDirection
   });
   // LAST STEP: get all squares, toggle transition
   // resetGameboard / probs setTimeout
+  setTimeout(() => {
+    squares.forEach((square) => {
+      const gameSquare = document.getElementById(`s${square.id}`);
 
-  squares.forEach((square) => {
-    const gameSquare = document.getElementById(`s${square.id}`);
-
-    gameSquare.classList.toggle("transition");
-    //get element with that id
-    //add class depending on posChange and changeDirection
-  });
+      gameSquare.classList.toggle("transition");
+      //get element with that id
+      //add class depending on posChange and changeDirection
+    });
+  }, 10);
 };
 
 const resetGameboard = () => {
