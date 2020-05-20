@@ -127,10 +127,11 @@ const calcSquares = (a, b, c, d) => {
   }
 
   if (a.value !== b.value && a.value == 0) {
+    b.posChange += 1;
     if (c.value === 0 && b.value === d) {
       b.value *= 2;
       d.posChange += 2;
-    } else {
+    } else if (d.value !== 0) {
       d.posChange += 1;
     }
 
@@ -247,6 +248,7 @@ const checkForMovement = () => {
             calcSquares(squares[2], squares[6], squares[10], squares[14]);
             calcSquares(squares[3], squares[7], squares[11], squares[15]);
             pressedDown = !pressedDown;
+            console.log(squares);
             updateGameboard(direction);
             break;
           case "down":
@@ -258,6 +260,7 @@ const checkForMovement = () => {
             calcSquares(squares[14], squares[10], squares[6], squares[2]);
             calcSquares(squares[15], squares[11], squares[7], squares[3]);
             pressedDown = !pressedDown;
+            console.log(squares);
             updateGameboard(direction);
             break;
           default:
