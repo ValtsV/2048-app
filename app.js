@@ -38,7 +38,7 @@ let isPlaying = false;
 // reads squares and updates gameboard accordingly
 
 const updateGameboard = (direction) => {
-  console.log("gameboard rendered");
+  console.log("gameboard updated");
 
   squares.forEach((square) => {
     const gameSquare = document.getElementById(`s${square.id}`);
@@ -60,12 +60,46 @@ const updateGameboard = (direction) => {
   }, 10);
 };
 
-const resetGameboard = () => {
+const renderGameboard = (direction) => {
+  squares.map((el) => {
+    const x = document.getElementById(`s${el.id}`);
+    x.textContent = el.value;
+    x.className = "square";
+
+    el.posChange = 0;
+
+    switch (el.value) {
+      case 2:
+        x.classList.add("red");
+        break;
+      case 4:
+        x.classList.add("yellow");
+        break;
+      case 8:
+        x.classList.add("green");
+        break;
+      case 16:
+        x.classList.add("blue");
+        break;
+      case 32:
+        x.classList.add("teal");
+        break;
+      case 64:
+        x.classList.add("pink");
+        break;
+
+      default:
+        break;
+    }
+  });
+  setTimeout(addNumber, 100);
   // resets the squares objects
 
   // swaps classes back
   // removes helper classes
   console.log("squares reset");
+
+  console.log(squares);
 };
 
 const startGame = () => {
@@ -81,7 +115,7 @@ const start = document.getElementById("start");
 start.addEventListener("click", startGame);
 
 const calcSquares = (a, b, c, d) => {
-  if (a.value === b && a.value !== 0) {
+  if (a.value === b.value && a.value !== 0) {
     a.value *= 2;
     b.posChange += 1;
     b.value = 0;
@@ -98,9 +132,7 @@ const calcSquares = (a, b, c, d) => {
     c.posChange += 1;
     d.posChange += 1;
     console.log("run1");
-  }
-
-  if (a.value === b.value && a.value === 0) {
+  } else if (a.value === b.value && a.value === 0) {
     if (c.value === 0 && d.value !== 0) {
       d.posChange += 3;
       a.value = d.value;
@@ -118,30 +150,85 @@ const calcSquares = (a, b, c, d) => {
       c.value = 0;
       c.posChange += 2;
       console.log("runC");
+    } else if (c.value !== d.value) {
+      a.value = c.value;
+      b.value = d.value;
+      c.posChange += 2;
+      d.posChange += 2;
+      c.value = 0;
+      d.value = 0;
     }
     console.log("run2");
-  }
-
-  if (a.value !== b.value && a.value !== 0 && b.value !== 0) {
-    if (c.value === 0 && d.value !== 0) {
-      c.value = d.value;
-      d.value = 0;
-      d.posChange += 1;
-    } else if (c.value === d.value) {
-      c.value *= 2;
-      d.value = 0;
-      d.posChange += 1;
+  } else if (a.value !== b.value && a.value !== 0) {
+    if (b.value === 0) {
+      if (a.value === c.value) {
+        a.value *= 2;
+        c.value = 0;
+        c.posChange += 2;
+        if (d !== 0) {
+          d.posChange += 2;
+          b.value = d.value;
+          d.value = 0;
+        }
+      } else if (a.value !== c.value && c.value !== 0) {
+        if (c.value !== d.value) {
+          b.value = c.value;
+          c.posChange += 1;
+          c.value = d.value;
+          d.posChange += 1;
+          d.value = 0;
+        } else {
+          b.value = c.value * 2;
+          c.posChange += 1;
+          d.posChange += 2;
+          c.value = 0;
+          d.value = 0;
+        }
+      } else if (a.value === d.value) {
+        a.value *= 2;
+        d.posChange += 3;
+        d.value = 0;
+      } else if (a.value !== d.value && d.value !== 0) {
+        b.value = d.value;
+        d.posChange += 2;
+        d.value = 0;
+      }
+    } else {
+      if (b.value === c.value) {
+        b.value *= 2;
+        c.posChange += 1;
+        if (d.value !== 0) {
+          c.value = d.value;
+          d.posChange += 1;
+          d.value = 0;
+        } else {
+          c.value = 0;
+        }
+      } else if (c.value === 0) {
+        if (b.value === d.value) {
+          b.value *= 2;
+          d.posChange += 2;
+          d.value = 0;
+        } else if (d.value !== 0) {
+          c.value = d.value;
+          d.posChange += 1;
+          d.value = 0;
+        }
+      } else if (c.value === d.value) {
+        c.value *= 2;
+        d.posChange += 1;
+        d.value = 0;
+      }
     }
-    console.log("run3");
-  }
 
-  if (a.value !== b.value && a.value == 0) {
+    console.log("run3");
+  } else if (a.value !== b.value && a.value == 0) {
     b.posChange += 1;
-    if (c.value === 0 && b.value === d) {
+    if (c.value === 0 && b.value === d.value) {
       b.value *= 2;
       d.value = 0;
       d.posChange += 2;
-    } else if (c.value === 0 && b.value !== d && d.value !== 0) {
+    } else if (c.value === 0 && b.value !== d.value && d.value !== 0) {
       d.posChange += 1;
       c.value = d.value;
       d.value = 0;
@@ -169,6 +256,7 @@ const calcSquares = (a, b, c, d) => {
     a.value = b.value;
     b.value = c.value;
     c.value = d.value;
+    d.value = 0;
     console.log("run4");
   }
 };
@@ -216,24 +304,18 @@ const checkForMovement = () => {
     // 4. runs func for pointermove
     const func2 = () => {
       // calculates difference between starting point and current point
-      console.log("x is : " + x);
       diff.left = x - event.pageX;
-      console.log(diff.left);
       diff.right = event.pageX - x;
-      console.log(diff.right);
 
       diff.up = y - event.pageY;
-      console.log(diff.up);
 
       diff.down = event.pageY - y;
-      console.log(diff.down);
 
       if (pressedDown) {
         // returns empty string or first value that reaches 100
         const direction = Object.keys(diff)
           .filter((key) => diff[key] > 100)
           .toString();
-        console.log(direction);
         isPlaying = !isPlaying;
         // ---------- RUNS AFTER PLAYER INPUT HAS HAPPENED
         switch (direction) {
@@ -247,9 +329,11 @@ const checkForMovement = () => {
             calcSquares(squares[12], squares[13], squares[14], squares[15]);
 
             pressedDown = !pressedDown;
-            console.log(squares);
+            // console.log(squares);
             updateGameboard(direction);
-
+            setTimeout(() => {
+              renderGameboard(direction);
+            }, 100);
             break;
           case "right":
             console.log("right");
@@ -260,10 +344,13 @@ const checkForMovement = () => {
             calcSquares(squares[11], squares[10], squares[9], squares[8]);
             calcSquares(squares[15], squares[14], squares[13], squares[12]);
             pressedDown = !pressedDown;
-            console.log(squares);
+            // console.log(squares);
 
             updateGameboard(direction);
             // updateGameboard(direction);
+            setTimeout(() => {
+              renderGameboard(direction);
+            }, 100);
             break;
           case "up":
             console.log("up");
@@ -274,8 +361,11 @@ const checkForMovement = () => {
             calcSquares(squares[2], squares[6], squares[10], squares[14]);
             calcSquares(squares[3], squares[7], squares[11], squares[15]);
             pressedDown = !pressedDown;
-            console.log(squares);
+            // console.log(squares);
             updateGameboard(direction);
+            setTimeout(() => {
+              renderGameboard(direction);
+            }, 100);
             break;
           case "down":
             console.log("down");
@@ -286,8 +376,11 @@ const checkForMovement = () => {
             calcSquares(squares[14], squares[10], squares[6], squares[2]);
             calcSquares(squares[15], squares[11], squares[7], squares[3]);
             pressedDown = !pressedDown;
-            console.log(squares);
+            // console.log(squares);
             updateGameboard(direction);
+            setTimeout(() => {
+              renderGameboard(direction);
+            }, 100);
             break;
           default:
             console.log("no move");
@@ -310,9 +403,17 @@ const checkForMovement = () => {
 //Adds number in free space
 
 const addNumber = () => {
-  const emptySquares = squares.map((square) => {
-    if (square.value == 0) {
-      return square.id;
+  console.log(squares);
+  // const emptySquares = squares.map((square) => {
+  //   if (square.value == 0) {
+  //     return square.id;
+  //   }
+  // });
+
+  const emptySquares = [];
+  squares.forEach((el) => {
+    if (el.value === 0) {
+      emptySquares.push(el.id);
     }
   });
 
@@ -327,6 +428,7 @@ const addNumber = () => {
 
   const gameSquare = document.getElementById(`s${nextSquare}`);
   gameSquare.textContent = "2";
+  gameSquare.classList.add("red");
   console.log("id of square:" + `s${nextSquare}`);
 
   const x = emptySquares.findIndex((el) => el == nextSquare);
@@ -337,39 +439,4 @@ const addNumber = () => {
   console.log(emptySquares);
 
   console.log(squares);
-};
-
-// swaps square class for animation to work
-
-const swapSquareClass = (direction) => {
-  const squares = document.getElementsByClassName("square");
-  switch (direction) {
-    case "left":
-      Array.from(squares).forEach((square) => {
-        square.classList.add("square-left");
-        square.classList.remove("square");
-      });
-      break;
-    case "right":
-      Array.from(squares).forEach((square) => {
-        square.classList.add("square-right");
-        square.classList.remove("square");
-      });
-      break;
-    case "up":
-      Array.from(squares).forEach((square) => {
-        square.classList.add("square-up");
-        square.classList.remove("square");
-      });
-      break;
-    case "down":
-      Array.from(squares).forEach((square) => {
-        square.classList.add("square-left");
-        square.classList.remove("square");
-      });
-      break;
-
-    default:
-      break;
-  }
 };

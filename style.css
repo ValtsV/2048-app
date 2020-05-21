@@ -7,6 +7,7 @@
   grid-template-rows: repeat(4, 1fr);
   gap: 2px;
   text-align: center;
+  /* background-color: tomato; */
 }
 
 .square {
@@ -14,9 +15,12 @@
   justify-content: center;
   align-items: center;
   border: 2px solid turquoise;
+  /* background-color: turquoise; */
   border-radius: 5px;
   overflow: auto;
   opacity: 1;
+  background-color: grey;
+  color: white;
 }
 
 /* .square-bottom {
@@ -38,29 +42,29 @@
 .up1 {
   position: relative;
   bottom: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.9s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .up2 {
   position: relative;
   bottom: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .up3 {
   position: relative;
   position: relative;
   bottom: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .up1.transition {
@@ -78,29 +82,29 @@
 .left1 {
   position: relative;
   right: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .left2 {
   position: relative;
   right: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .left3 {
   position: relative;
   position: relative;
   right: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .left1.transition {
@@ -118,29 +122,29 @@
 .down1 {
   position: relative;
   top: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .down2 {
   position: relative;
   top: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .down3 {
   position: relative;
   position: relative;
   top: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .down1.transition {
@@ -158,29 +162,29 @@
 .right1 {
   position: relative;
   left: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .right2 {
   position: relative;
   left: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .right3 {
   position: relative;
   position: relative;
   left: 0px;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
 }
 
 .right1.transition {
@@ -193,4 +197,28 @@
 
 .right3.transition {
   left: 75vw;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.teal {
+  background-color: teal;
+}
+
+.pink {
+  background-color: pink;
 }
