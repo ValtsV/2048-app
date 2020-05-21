@@ -84,11 +84,14 @@ const calcSquares = (a, b, c, d) => {
   if (a.value === b && a.value !== 0) {
     a.value *= 2;
     b.posChange += 1;
+    b.value = 0;
     if (c.value === 0 && d.value !== 0) {
       d.posChange += 1;
-    }
-    if (c.value === d.value) {
-      c.value *= 2;
+      b.value = d.value;
+    } else if (c.value === d.value && c.value !== 0) {
+      b.value = c.value * 2;
+      c.value = 0;
+      d.value = 0;
       d.posChange += 1;
     }
 
@@ -100,15 +103,19 @@ const calcSquares = (a, b, c, d) => {
   if (a.value === b.value && a.value === 0) {
     if (c.value === 0 && d.value !== 0) {
       d.posChange += 3;
+      a.value = d.value;
+      d.value = 0;
       console.log("runA");
-    }
-    if (c.value === d.value && c.value !== 0) {
-      c.value *= 2;
+    } else if (c.value === d.value && c.value !== 0) {
+      a.value = c.value * 2;
+      c.value = 0;
+      d.value = 0;
       c.posChange += 2;
       d.posChange += 3;
       console.log("runB");
-    }
-    if (c.value !== 0 && d.value === 0) {
+    } else if (c.value !== 0 && d.value === 0) {
+      a.value = c.value;
+      c.value = 0;
       c.posChange += 2;
       console.log("runC");
     }
@@ -117,10 +124,12 @@ const calcSquares = (a, b, c, d) => {
 
   if (a.value !== b.value && a.value !== 0 && b.value !== 0) {
     if (c.value === 0 && d.value !== 0) {
+      c.value = d.value;
+      d.value = 0;
       d.posChange += 1;
-    }
-    if (c.value === d.value) {
+    } else if (c.value === d.value) {
       c.value *= 2;
+      d.value = 0;
       d.posChange += 1;
     }
     console.log("run3");
@@ -130,21 +139,36 @@ const calcSquares = (a, b, c, d) => {
     b.posChange += 1;
     if (c.value === 0 && b.value === d) {
       b.value *= 2;
+      d.value = 0;
       d.posChange += 2;
-    } else if (d.value !== 0) {
+    } else if (c.value === 0 && b.value !== d && d.value !== 0) {
       d.posChange += 1;
-    }
-
-    if (b.value === c.value) {
+      c.value = d.value;
+      d.value = 0;
+    } else if (b.value === c.value) {
       b.value *= 2;
+      c.value = 0;
       c.posChange += 1;
       if (d.value !== 0) {
         d.posChange += 1;
+        c.value = d.value;
+        d.value = 0;
       }
-    } else if (c.value === d.value) {
+    } else if (c.value === d.value && c.value !== 0) {
       c.value *= 2;
+      d.value = 0;
       d.posChange + 1;
     }
+    if (c.value !== 0) {
+      c.posChange += 1;
+    }
+    if (d.value !== 0) {
+      d.posChange += 1;
+    }
+
+    a.value = b.value;
+    b.value = c.value;
+    c.value = d.value;
     console.log("run4");
   }
 };
@@ -223,7 +247,9 @@ const checkForMovement = () => {
             calcSquares(squares[12], squares[13], squares[14], squares[15]);
 
             pressedDown = !pressedDown;
+            console.log(squares);
             updateGameboard(direction);
+
             break;
           case "right":
             console.log("right");
