@@ -92,7 +92,7 @@ const renderGameboard = (direction) => {
         break;
     }
   });
-  setTimeout(addNumber, 100);
+  setTimeout(addNumber, 900);
   // resets the squares objects
 
   // swaps classes back
@@ -115,150 +115,64 @@ const start = document.getElementById("start");
 start.addEventListener("click", startGame);
 
 const calcSquares = (a, b, c, d) => {
-  if (a.value === b.value && a.value !== 0) {
-    a.value *= 2;
-    b.posChange += 1;
-    b.value = 0;
-    if (c.value === 0 && d.value !== 0) {
-      d.posChange += 1;
-      b.value = d.value;
-    } else if (c.value === d.value && c.value !== 0) {
-      b.value = c.value * 2;
-      c.value = 0;
-      d.value = 0;
-      d.posChange += 1;
-    }
+  const y = [a, b, c, d];
 
-    c.posChange += 1;
-    d.posChange += 1;
-    console.log("run1");
-  } else if (a.value === b.value && a.value === 0) {
-    if (c.value === 0 && d.value !== 0) {
-      d.posChange += 3;
-      a.value = d.value;
-      d.value = 0;
-      console.log("runA");
-    } else if (c.value === d.value && c.value !== 0) {
-      a.value = c.value * 2;
-      c.value = 0;
-      d.value = 0;
-      c.posChange += 2;
-      d.posChange += 3;
-      console.log("runB");
-    } else if (c.value !== 0 && d.value === 0) {
-      a.value = c.value;
-      c.value = 0;
-      c.posChange += 2;
-      console.log("runC");
-    } else if (c.value !== d.value) {
-      a.value = c.value;
-      b.value = d.value;
-      c.posChange += 2;
-      d.posChange += 2;
-      c.value = 0;
-      d.value = 0;
-    }
-    console.log("run2");
-  } else if (a.value !== b.value && a.value !== 0) {
-    if (b.value === 0) {
-      if (a.value === c.value) {
-        a.value *= 2;
-        c.value = 0;
-        c.posChange += 2;
-        if (d !== 0) {
-          d.posChange += 2;
-          b.value = d.value;
-          d.value = 0;
-        }
-      } else if (a.value !== c.value && c.value !== 0) {
-        if (c.value !== d.value) {
-          b.value = c.value;
-          c.posChange += 1;
-          c.value = d.value;
-          d.posChange += 1;
-          d.value = 0;
-        } else {
-          b.value = c.value * 2;
-          c.posChange += 1;
-          d.posChange += 2;
-          c.value = 0;
-          d.value = 0;
-        }
-      } else if (a.value === d.value) {
-        a.value *= 2;
-        d.posChange += 3;
-        d.value = 0;
-      } else if (a.value !== d.value && d.value !== 0) {
-        b.value = d.value;
-        d.posChange += 2;
-        d.value = 0;
-      }
+  const z = [];
+  y.forEach((el) => z.push(el.value));
+
+  let count = 0;
+
+  const x = [];
+  y.forEach((el) => {
+    el.posChange += count;
+    if (el.value === 0) {
+      count++;
     } else {
-      if (b.value === c.value) {
-        b.value *= 2;
-        c.posChange += 1;
-        if (d.value !== 0) {
-          c.value = d.value;
-          d.posChange += 1;
-          d.value = 0;
-        } else {
-          c.value = 0;
-        }
-      } else if (c.value === 0) {
-        if (b.value === d.value) {
-          b.value *= 2;
-          d.posChange += 2;
-          d.value = 0;
-        } else if (d.value !== 0) {
-          c.value = d.value;
-          d.posChange += 1;
-          d.value = 0;
-        }
-      } else if (c.value === d.value) {
-        c.value *= 2;
-        d.posChange += 1;
-        d.value = 0;
-      }
+      x.push(el);
+    }
+  });
+
+  console.log(y);
+  console.log(x);
+  let count2 = 0;
+  for (let i = 0; i < x.length - 1; i++) {
+    if (x[i].value === 0) {
+      x[i + 1].posChange += 1;
+    } else if (x[i].value === x[i + 1].value) {
+      x[i].value *= 2;
+      x[i + 1].value = 0;
+      x[i + 1].posChange = x[i + 1].posChange + 1 + count2;
+      count2++;
     }
 
-    console.log("run3");
-  } else if (a.value !== b.value && a.value == 0) {
-    b.posChange += 1;
-    if (c.value === 0 && b.value === d.value) {
-      b.value *= 2;
-      d.value = 0;
-      d.posChange += 2;
-    } else if (c.value === 0 && b.value !== d.value && d.value !== 0) {
-      d.posChange += 1;
-      c.value = d.value;
-      d.value = 0;
-    } else if (b.value === c.value) {
-      b.value *= 2;
-      c.value = 0;
-      c.posChange += 1;
-      if (d.value !== 0) {
-        d.posChange += 1;
-        c.value = d.value;
-        d.value = 0;
-      }
-    } else if (c.value === d.value && c.value !== 0) {
-      c.value *= 2;
-      d.value = 0;
-      d.posChange + 1;
-    }
-    if (c.value !== 0) {
-      c.posChange += 1;
-    }
-    if (d.value !== 0) {
-      d.posChange += 1;
-    }
-
-    a.value = b.value;
-    b.value = c.value;
-    c.value = d.value;
-    d.value = 0;
-    console.log("run4");
+    // else {
+    //   x[i + 1].posChange += x[i].posChange;
+    // }
   }
+
+  for (let i = 0; i < z.length; i++) {
+    if (z[i] === 0) {
+      y[i].posChange = 0;
+    }
+  }
+  console.log(y);
+  console.log(z);
+  const p = [0, 0, 0, 0];
+  const t = y.filter((el) => el.value > 0);
+  t.forEach((el, index) => {
+    p[index] = el.value;
+  });
+
+  console.log(p);
+  for (let i = 0; i < y.length; i++) {
+    y[i].value = p[i];
+  }
+  console.log(y);
+
+  a = y[0];
+  b = y[1];
+  c = y[2];
+  d = y[3];
 };
 
 // --------------------------
@@ -333,7 +247,7 @@ const checkForMovement = () => {
             updateGameboard(direction);
             setTimeout(() => {
               renderGameboard(direction);
-            }, 100);
+            }, 900);
             break;
           case "right":
             console.log("right");
@@ -350,7 +264,7 @@ const checkForMovement = () => {
             // updateGameboard(direction);
             setTimeout(() => {
               renderGameboard(direction);
-            }, 100);
+            }, 900);
             break;
           case "up":
             console.log("up");
@@ -365,7 +279,7 @@ const checkForMovement = () => {
             updateGameboard(direction);
             setTimeout(() => {
               renderGameboard(direction);
-            }, 100);
+            }, 900);
             break;
           case "down":
             console.log("down");
@@ -380,7 +294,7 @@ const checkForMovement = () => {
             updateGameboard(direction);
             setTimeout(() => {
               renderGameboard(direction);
-            }, 100);
+            }, 900);
             break;
           default:
             console.log("no move");
