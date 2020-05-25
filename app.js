@@ -1,29 +1,6 @@
-// Make array of objects, where each object is a square
-
-// elem.addEventListener("click", () => {
-//   const squery = document.getElementById("s16");
-//   squery.classList.add("square-bottom");
-//   squery.classList.remove("square");
-//   squery.classList.add("up1");
-
-//   setTimeout(() => {
-//     squery.classList.toggle("transition");
-//   }, 10);
-
-const elem = document.getElementById("anim");
-elem.addEventListener("click", () => {
-  const squery = document.getElementById("s16");
-  // squery.classList.add("square-bottom");
-  // squery.classList.remove("square");
-  squery.classList.add("up2");
-  setTimeout(() => {
-    squery.classList.toggle("transition");
-  }, 10);
-  // squery.classList.add("up2");
-  console.log("added class");
-
-  console.log("added transition");
-});
+// Make array of objects
+// Each object stores square ID, its value and ->
+// how much positions it will travel on next animation
 
 const squares = [];
 for (let index = 0; index < 16; index++) {
@@ -33,38 +10,38 @@ for (let index = 0; index < 16; index++) {
     posChange: 0,
   });
 }
-let isPlaying = false;
 
-// reads squares and updates gameboard accordingly
+const startGame = () => {
+  addNumber();
+
+  checkForMovement();
+};
+
+// makes moving animation
 
 const updateGameboard = (direction) => {
-  console.log("gameboard updated");
-
+  // adds class with new position to squares, then toggles animation
   squares.forEach((square) => {
     const gameSquare = document.getElementById(`s${square.id}`);
 
     gameSquare.classList.add(direction + square.posChange);
-    //get element with that id
-    //add class depending on posChange and changeDirection
   });
-  // LAST STEP: get all squares, toggle transition
-  // resetGameboard / probs setTimeout
   setTimeout(() => {
     squares.forEach((square) => {
       const gameSquare = document.getElementById(`s${square.id}`);
 
       gameSquare.classList.toggle("transition");
-      //get element with that id
-      //add class depending on posChange and changeDirection
     });
   }, 10);
 };
+
+// renders new gameboard after moving animation ends
 
 const renderGameboard = (direction) => {
   squares.map((el) => {
     const x = document.getElementById(`s${el.id}`);
     x.textContent = el.value;
-    x.className = "square";
+    x.className = "square unselectable";
 
     el.posChange = 0;
 
@@ -92,226 +69,222 @@ const renderGameboard = (direction) => {
         break;
     }
   });
-  setTimeout(addNumber, 900);
-  // resets the squares objects
 
-  // swaps classes back
-  // removes helper classes
-  console.log("squares reset");
-
-  console.log(squares);
-};
-
-const startGame = () => {
-  // Checks which squares are free and adds randomly a number
-  addNumber();
-
-  isPlaying = true;
-
-  checkForMovement();
+  setTimeout(addNumber, 300);
 };
 
 const start = document.getElementById("start");
 start.addEventListener("click", startGame);
 
 const calcSquares = (a, b, c, d) => {
-  const y = [a, b, c, d];
+  const squareElements = [a, b, c, d];
 
-  const z = [];
-  y.forEach((el) => z.push(el.value));
+  const oldSquareValues = [];
+  squareElements.forEach((el) => oldSquareValues.push(el.value)); // save original values
 
-  let count = 0;
+  // takes elements with value > 0
+  // zeros counts how many zeros how been removed and adds that to posChange of next elements
 
-  const x = [];
-  y.forEach((el) => {
-    el.posChange += count;
+  let zeros = 0;
+
+  // nonZV - non Zero Values
+
+  const nonZV = [];
+  squareElements.forEach((el) => {
+    el.posChange += zeros;
     if (el.value === 0) {
-      count++;
+      zeros++;
     } else {
-      x.push(el);
+      nonZV.push(el);
     }
   });
 
-  console.log(y);
-  console.log(x);
-  let count2 = 0;
-  for (let i = 0; i < x.length - 1; i++) {
-    if (x[i].value === 0) {
-      x[i + 1].posChange += 1;
-    } else if (x[i].value === x[i + 1].value) {
-      x[i].value *= 2;
-      x[i + 1].value = 0;
-      x[i + 1].posChange = x[i + 1].posChange + 1 + count2;
-      count2++;
+  // calculates new square values and posChanges
+
+  // counter for how many times 0 value have been moved to the back
+  let stepBackCount = 0;
+
+  for (let i = 0; i < nonZV.length - 1 - stepBackCount; i++) {
+    // checks if 2 elements can be summed
+    // if yes, sets 2nd element value to zero to move it back in next loop
+
+    if (nonZV[i].value === nonZV[i + 1].value) {
+      nonZV[i].value *= 2;
+      nonZV[i + 1].value = 0;
+      nonZV[i + 1 + stepBackCount].posChange += 1;
     }
+    // reforms array by moving 0 value to the back
+    else if (nonZV[i].value === 0) {
+      for (let j = i; j < nonZV.length - 1 - stepBackCount; j++) {
+        nonZV[j].value = nonZV[j + 1].value;
+        nonZV[j + 1].value = 0;
+        nonZV[j + 1 + stepBackCount].posChange += 1;
+      }
 
-    // else {
-    //   x[i + 1].posChange += x[i].posChange;
-    // }
-  }
-
-  for (let i = 0; i < z.length; i++) {
-    if (z[i] === 0) {
-      y[i].posChange = 0;
+      stepBackCount++;
+      // sets loop to iterate again the same element that now isnt 0
+      i--;
     }
   }
-  console.log(y);
-  console.log(z);
-  const p = [0, 0, 0, 0];
-  const t = y.filter((el) => el.value > 0);
-  t.forEach((el, index) => {
-    p[index] = el.value;
-  });
 
-  console.log(p);
-  for (let i = 0; i < y.length; i++) {
-    y[i].value = p[i];
+  // resets posChange to 0 for elements with starting value 0
+
+  for (let i = 0; i < oldSquareValues.length; i++) {
+    if (oldSquareValues[i] === 0) {
+      squareElements[i].posChange = 0;
+    }
   }
-  console.log(y);
 
-  a = y[0];
-  b = y[1];
-  c = y[2];
-  d = y[3];
+  //  pushes none zero values to the start
+
+  for (let i = 0; i < squareElements.length; i++) {
+    if (i < nonZV.length) {
+      squareElements[i].value = nonZV[i].value;
+    } else {
+      squareElements[i].value = 0;
+    }
+  }
+  console.log(squareElements);
+
+  a = squareElements[0];
+  b = squareElements[1];
+  c = squareElements[2];
+  d = squareElements[3];
 };
 
 // --------------------------
 
 const checkForMovement = () => {
-  if (isPlaying) {
-    // document.getElementById("start").addEventListener("click", addNumber);
+  // document.getElementById("start").addEventListener("click", addNumber);
 
-    let pressedDown = false;
+  let pressedDown = false;
 
-    let x;
-    let y;
+  let x;
+  let y;
 
-    const diff = {
-      left: 0,
-      right: 0,
-      up: 0,
-      down: 0,
-    };
+  const diff = {
+    left: 0,
+    right: 0,
+    up: 0,
+    down: 0,
+  };
 
-    const func3 = () => {
-      pressedDown = false;
-    };
+  const func3 = () => {
+    pressedDown = false;
+  };
 
-    const func = () => {
-      pressedDown = true;
-      gameBoard.addEventListener("pointerup", func3, false);
-      console.log(event.pageX);
-      x = event.pageX;
-      y = event.pageY;
+  const func = () => {
+    pressedDown = true;
+    gameBoard.addEventListener("pointerup", func3, false);
+    console.log(event.pageX);
+    x = event.pageX;
+    y = event.pageY;
 
-      //  3. adds listener for pointermove
-      gameBoard.addEventListener("pointermove", func2);
-    };
+    //  3. adds listener for pointermove
+    gameBoard.addEventListener("pointermove", func2);
+  };
 
-    // 1.Adds listener for a click
-    const gameBoard = document.getElementById("main-block");
+  // 1.Adds listener for a click
+  const gameBoard = document.getElementById("main-block");
 
-    gameBoard.addEventListener("pointerdown", func, false);
+  gameBoard.addEventListener("pointerdown", func, false);
 
-    // ////////// checks direction
+  // ////////// checks direction
 
-    // 4. runs func for pointermove
-    const func2 = () => {
-      // calculates difference between starting point and current point
-      diff.left = x - event.pageX;
-      diff.right = event.pageX - x;
+  // 4. runs func for pointermove
+  const func2 = () => {
+    // calculates difference between starting point and current point
+    diff.left = x - event.pageX;
+    diff.right = event.pageX - x;
 
-      diff.up = y - event.pageY;
+    diff.up = y - event.pageY;
 
-      diff.down = event.pageY - y;
+    diff.down = event.pageY - y;
 
-      if (pressedDown) {
-        // returns empty string or first value that reaches 100
-        const direction = Object.keys(diff)
-          .filter((key) => diff[key] > 100)
-          .toString();
-        isPlaying = !isPlaying;
-        // ---------- RUNS AFTER PLAYER INPUT HAS HAPPENED
-        switch (direction) {
-          case "left":
-            console.log("left");
-            // swapSquareClass(direction);
+    if (pressedDown) {
+      // returns empty string or first value that reaches 100
+      const direction = Object.keys(diff)
+        .filter((key) => diff[key] > 100)
+        .toString();
+      // ---------- RUNS AFTER PLAYER INPUT HAS HAPPENED
+      switch (direction) {
+        case "left":
+          console.log("left");
+          // swapSquareClass(direction);
 
-            calcSquares(squares[0], squares[1], squares[2], squares[3]);
-            calcSquares(squares[4], squares[5], squares[6], squares[7]);
-            calcSquares(squares[8], squares[9], squares[10], squares[11]);
-            calcSquares(squares[12], squares[13], squares[14], squares[15]);
+          calcSquares(squares[0], squares[1], squares[2], squares[3]);
+          calcSquares(squares[4], squares[5], squares[6], squares[7]);
+          calcSquares(squares[8], squares[9], squares[10], squares[11]);
+          calcSquares(squares[12], squares[13], squares[14], squares[15]);
 
-            pressedDown = !pressedDown;
-            // console.log(squares);
-            updateGameboard(direction);
-            setTimeout(() => {
-              renderGameboard(direction);
-            }, 900);
-            break;
-          case "right":
-            console.log("right");
-            // swapSquareClass(direction);
+          pressedDown = !pressedDown;
+          // console.log(squares);
+          updateGameboard(direction);
+          setTimeout(() => {
+            renderGameboard(direction);
+          }, 80);
+          break;
+        case "right":
+          console.log("right");
+          // swapSquareClass(direction);
 
-            calcSquares(squares[3], squares[2], squares[1], squares[0]);
-            calcSquares(squares[7], squares[6], squares[5], squares[4]);
-            calcSquares(squares[11], squares[10], squares[9], squares[8]);
-            calcSquares(squares[15], squares[14], squares[13], squares[12]);
-            pressedDown = !pressedDown;
-            // console.log(squares);
+          calcSquares(squares[3], squares[2], squares[1], squares[0]);
+          calcSquares(squares[7], squares[6], squares[5], squares[4]);
+          calcSquares(squares[11], squares[10], squares[9], squares[8]);
+          calcSquares(squares[15], squares[14], squares[13], squares[12]);
+          pressedDown = !pressedDown;
+          // console.log(squares);
 
-            updateGameboard(direction);
-            // updateGameboard(direction);
-            setTimeout(() => {
-              renderGameboard(direction);
-            }, 900);
-            break;
-          case "up":
-            console.log("up");
-            // swapSquareClass(direction);
+          updateGameboard(direction);
+          // updateGameboard(direction);
+          setTimeout(() => {
+            renderGameboard(direction);
+          }, 80);
+          break;
+        case "up":
+          console.log("up");
+          // swapSquareClass(direction);
 
-            calcSquares(squares[0], squares[4], squares[8], squares[12]);
-            calcSquares(squares[1], squares[5], squares[9], squares[13]);
-            calcSquares(squares[2], squares[6], squares[10], squares[14]);
-            calcSquares(squares[3], squares[7], squares[11], squares[15]);
-            pressedDown = !pressedDown;
-            // console.log(squares);
-            updateGameboard(direction);
-            setTimeout(() => {
-              renderGameboard(direction);
-            }, 900);
-            break;
-          case "down":
-            console.log("down");
-            // swapSquareClass(direction);
+          calcSquares(squares[0], squares[4], squares[8], squares[12]);
+          calcSquares(squares[1], squares[5], squares[9], squares[13]);
+          calcSquares(squares[2], squares[6], squares[10], squares[14]);
+          calcSquares(squares[3], squares[7], squares[11], squares[15]);
+          pressedDown = !pressedDown;
+          // console.log(squares);
+          updateGameboard(direction);
+          setTimeout(() => {
+            renderGameboard(direction);
+          }, 80);
+          break;
+        case "down":
+          console.log("down");
+          // swapSquareClass(direction);
 
-            calcSquares(squares[12], squares[8], squares[4], squares[0]);
-            calcSquares(squares[13], squares[9], squares[5], squares[1]);
-            calcSquares(squares[14], squares[10], squares[6], squares[2]);
-            calcSquares(squares[15], squares[11], squares[7], squares[3]);
-            pressedDown = !pressedDown;
-            // console.log(squares);
-            updateGameboard(direction);
-            setTimeout(() => {
-              renderGameboard(direction);
-            }, 900);
-            break;
-          default:
-            console.log("no move");
-            break;
-        }
-
-        // ------------------
-      } else {
-        // stops checking for coords after pointer is lifted
-        gameBoard.removeEventListener("pointermove", func2);
-        gameBoard.removeEventListener("pointerup", func3, false);
-        pressedDown = false;
+          calcSquares(squares[12], squares[8], squares[4], squares[0]);
+          calcSquares(squares[13], squares[9], squares[5], squares[1]);
+          calcSquares(squares[14], squares[10], squares[6], squares[2]);
+          calcSquares(squares[15], squares[11], squares[7], squares[3]);
+          pressedDown = !pressedDown;
+          // console.log(squares);
+          updateGameboard(direction);
+          setTimeout(() => {
+            renderGameboard(direction);
+          }, 80);
+          break;
+        default:
+          console.log("no move");
+          break;
       }
-    };
-  }
-};
 
+      // ------------------
+    } else {
+      // stops checking for coords after pointer is lifted
+      gameBoard.removeEventListener("pointermove", func2);
+      gameBoard.removeEventListener("pointerup", func3, false);
+      pressedDown = false;
+    }
+  };
+};
 // ------------------------------
 
 //Adds number in free space

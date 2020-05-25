@@ -8,6 +8,10 @@
   gap: 2px;
   text-align: center;
   /* background-color: tomato; */
+  z-index: 2;
+  position: relative;
+  top: -100vw;
+  touch-action: none;
 }
 
 .square {
@@ -18,53 +22,77 @@
   /* background-color: turquoise; */
   border-radius: 5px;
   overflow: auto;
-  opacity: 1;
   background-color: grey;
   color: white;
+  z-index: 3;
+  touch-action: none;
 }
 
-/* .square-bottom {
+.game-container-lower {
+  height: 100vw;
+  width: 100vw;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 2px;
+  text-align: center;
+  background-color: tomato;
+  z-index: -2;
+}
+
+.square-lower {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid turquoise;
+  /* background-color: turquoise; */
   border-radius: 5px;
   overflow: auto;
-  opacity: 1;
-  bottom: 0;
+  background-color: grey;
+  color: white;
   position: relative;
-  -webkit-transition: all 3s linear;
-  -moz-transition: all 3s linear;
-  -o-transition: all 3s linear;
-  transition: all 3s linear;
-} */
+  /* top: -100vw;
+  z-index: -1; */
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .up1 {
   position: relative;
   bottom: 0px;
-  -webkit-transition: all 0.9s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.03s linear;
+  -moz-transition: all 0.03s linear;
+  -o-transition: all 0.03s linear;
+  transition: all 0.03s linear;
+  z-index: 5;
 }
 
 .up2 {
   position: relative;
   bottom: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.06s linear;
+  -moz-transition: all 0.06s linear;
+  -o-transition: all 0.06s linear;
+  transition: all 0.06s linear;
+  z-index: 5;
 }
 
 .up3 {
   position: relative;
-  position: relative;
   bottom: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.09s linear;
+  -moz-transition: all 0.09s linear;
+  -o-transition: all 0.09s linear;
+  transition: all 0.09s linear;
+  z-index: 5;
 }
 
 .up1.transition {
@@ -82,29 +110,31 @@
 .left1 {
   position: relative;
   right: 0px;
-  -webkit-transition: all 0.1s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.03s linear;
+  -moz-transition: all 0.03s linear;
+  -o-transition: all 0.03s linear;
+  transition: all 0.03s linear;
+  z-index: 5;
 }
 
 .left2 {
   position: relative;
   right: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.06s linear;
+  -moz-transition: all 0.06s linear;
+  -o-transition: all 0.06s linear;
+  transition: all 0.06s linear;
+  z-index: 5;
 }
 
 .left3 {
   position: relative;
-  position: relative;
   right: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.09s linear;
+  -moz-transition: all 0.09s linear;
+  -o-transition: all 0.09s linear;
+  transition: all 0.09s linear;
+  z-index: 5;
 }
 
 .left1.transition {
@@ -122,29 +152,31 @@
 .down1 {
   position: relative;
   top: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.03s linear;
+  -moz-transition: all 0.03s linear;
+  -o-transition: all 0.03s linear;
+  transition: all 0.03s linear;
+  z-index: 5;
 }
 
 .down2 {
   position: relative;
   top: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.06s linear;
+  -moz-transition: all 0.06s linear;
+  -o-transition: all 0.06s linear;
+  transition: all 0.06s linear;
+  z-index: 5;
 }
 
 .down3 {
   position: relative;
-  position: relative;
   top: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.09s linear;
+  -moz-transition: all 0.09s linear;
+  -o-transition: all 0.09s linear;
+  transition: all 0.09s linear;
+  z-index: 5;
 }
 
 .down1.transition {
@@ -162,29 +194,31 @@
 .right1 {
   position: relative;
   left: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.03s linear;
+  -moz-transition: all 0.03s linear;
+  -o-transition: all 0.03s linear;
+  transition: all 0.03s linear;
+  z-index: 5;
 }
 
 .right2 {
   position: relative;
   left: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.06s linear;
+  -moz-transition: all 0.06s linear;
+  -o-transition: all 0.06s linear;
+  transition: all 0.06s linear;
+  z-index: 5;
 }
 
 .right3 {
   position: relative;
-  position: relative;
   left: 0px;
-  -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
-  transition: all 0.15s linear;
+  -webkit-transition: all 0.09s linear;
+  -moz-transition: all 0.09s linear;
+  -o-transition: all 0.09s linear;
+  transition: all 0.09s linear;
+  z-index: 5;
 }
 
 .right1.transition {
