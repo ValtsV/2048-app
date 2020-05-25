@@ -3,9 +3,9 @@
 // how much positions it will travel on next animation
 
 const squares = [];
-for (let index = 0; index < 16; index++) {
+for (let i = 0; i < 16; i++) {
   squares.push({
-    id: index + 1,
+    id: i + 1,
     value: 0,
     posChange: 0,
   });
@@ -15,7 +15,26 @@ const startGame = () => {
   addNumber();
 
   checkForMovement();
+
+  start.removeEventListener("click", startGame);
+  start.textContent = "Reset";
+  start.addEventListener("click", resetGame);
 };
+
+const resetGame = () => {
+  for (let i = 0; i < 16; i++) {
+    squares[i] = {
+      id: i + 1,
+      value: 0,
+      posChange: 0,
+    };
+  }
+
+  renderGameboard();
+};
+
+const start = document.getElementById("start");
+start.addEventListener("click", startGame);
 
 // makes moving animation
 
@@ -37,7 +56,7 @@ const updateGameboard = (direction) => {
 
 // renders new gameboard after moving animation ends
 
-const renderGameboard = (direction) => {
+const renderGameboard = () => {
   squares.map((el) => {
     const x = document.getElementById(`s${el.id}`);
     x.textContent = el.value;
@@ -71,10 +90,8 @@ const renderGameboard = (direction) => {
   });
 
   setTimeout(addNumber, 300);
+  console.log("adds number 1");
 };
-
-const start = document.getElementById("start");
-start.addEventListener("click", startGame);
 
 const calcSquares = (a, b, c, d) => {
   const squareElements = [a, b, c, d];
