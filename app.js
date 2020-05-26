@@ -162,7 +162,6 @@ const calcSquares = (a, b, c, d) => {
       squareElements[i].value = 0;
     }
   }
-  console.log(squareElements);
 
   a = squareElements[0];
   b = squareElements[1];
@@ -256,8 +255,6 @@ const checkForMovement = () => {
           updateGame();
           break;
         case "up":
-          console.log("up");
-
           calcSquares(squares[0], squares[4], squares[8], squares[12]);
           calcSquares(squares[1], squares[5], squares[9], squares[13]);
           calcSquares(squares[2], squares[6], squares[10], squares[14]);
