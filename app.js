@@ -90,8 +90,9 @@ const renderGameboard = () => {
   });
 
   setTimeout(addNumber, 300);
-  console.log("adds number 1");
 };
+
+// calculetas new square values and how much squares should move
 
 const calcSquares = (a, b, c, d) => {
   const squareElements = [a, b, c, d];
@@ -172,8 +173,6 @@ const calcSquares = (a, b, c, d) => {
 // --------------------------
 
 const checkForMovement = () => {
-  // document.getElementById("start").addEventListener("click", addNumber);
-
   let pressedDown = false;
 
   let x;
@@ -213,9 +212,7 @@ const checkForMovement = () => {
     // calculates difference between starting point and current point
     diff.left = x - event.pageX;
     diff.right = event.pageX - x;
-
     diff.up = y - event.pageY;
-
     diff.down = event.pageY - y;
 
     if (pressedDown) {
@@ -223,73 +220,63 @@ const checkForMovement = () => {
       const direction = Object.keys(diff)
         .filter((key) => diff[key] > 100)
         .toString();
-      // ---------- RUNS AFTER PLAYER INPUT HAS HAPPENED
+
+      const updateGame = () => {
+        let doMove = false;
+        for (let i = 0; i < squares.length; i++) {
+          if (squares[i].posChange > 0) {
+            doMove = true;
+            break;
+          }
+        }
+        if (doMove) {
+          updateGameboard(direction);
+          setTimeout(() => {
+            renderGameboard(direction);
+          }, 80);
+        }
+      };
+
       switch (direction) {
         case "left":
-          console.log("left");
-          // swapSquareClass(direction);
-
           calcSquares(squares[0], squares[1], squares[2], squares[3]);
           calcSquares(squares[4], squares[5], squares[6], squares[7]);
           calcSquares(squares[8], squares[9], squares[10], squares[11]);
           calcSquares(squares[12], squares[13], squares[14], squares[15]);
 
           pressedDown = !pressedDown;
-          // console.log(squares);
-          updateGameboard(direction);
-          setTimeout(() => {
-            renderGameboard(direction);
-          }, 80);
+          updateGame();
           break;
         case "right":
-          console.log("right");
-          // swapSquareClass(direction);
-
           calcSquares(squares[3], squares[2], squares[1], squares[0]);
           calcSquares(squares[7], squares[6], squares[5], squares[4]);
           calcSquares(squares[11], squares[10], squares[9], squares[8]);
           calcSquares(squares[15], squares[14], squares[13], squares[12]);
-          pressedDown = !pressedDown;
-          // console.log(squares);
 
-          updateGameboard(direction);
-          // updateGameboard(direction);
-          setTimeout(() => {
-            renderGameboard(direction);
-          }, 80);
+          pressedDown = !pressedDown;
+          updateGame();
           break;
         case "up":
           console.log("up");
-          // swapSquareClass(direction);
 
           calcSquares(squares[0], squares[4], squares[8], squares[12]);
           calcSquares(squares[1], squares[5], squares[9], squares[13]);
           calcSquares(squares[2], squares[6], squares[10], squares[14]);
           calcSquares(squares[3], squares[7], squares[11], squares[15]);
+
           pressedDown = !pressedDown;
-          // console.log(squares);
-          updateGameboard(direction);
-          setTimeout(() => {
-            renderGameboard(direction);
-          }, 80);
+          updateGame();
           break;
         case "down":
-          console.log("down");
-          // swapSquareClass(direction);
-
           calcSquares(squares[12], squares[8], squares[4], squares[0]);
           calcSquares(squares[13], squares[9], squares[5], squares[1]);
           calcSquares(squares[14], squares[10], squares[6], squares[2]);
           calcSquares(squares[15], squares[11], squares[7], squares[3]);
+
           pressedDown = !pressedDown;
-          // console.log(squares);
-          updateGameboard(direction);
-          setTimeout(() => {
-            renderGameboard(direction);
-          }, 80);
+          updateGame();
           break;
         default:
-          console.log("no move");
           break;
       }
 
