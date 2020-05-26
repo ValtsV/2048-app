@@ -18,7 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid turquoise;
+  border: 2px solid #40e0d0;
   /* background-color: turquoise; */
   border-radius: 5px;
   overflow: auto;
@@ -37,7 +37,7 @@
   grid-template-rows: repeat(4, 1fr);
   gap: 2px;
   text-align: center;
-  background-color: tomato;
+  background-color: black;
   z-index: -2;
 }
 
@@ -233,26 +233,50 @@
   left: 75vw;
 }
 
-.red {
-  background-color: red;
+.color1 {
+  background-color: #40e0d0;
 }
 
-.yellow {
-  background-color: yellow;
+.color2 {
+  background-color: rgb(14, 163, 148);
 }
 
-.green {
-  background-color: green;
+.color3 {
+  background-color: rgb(32, 116, 103);
 }
 
-.blue {
-  background-color: blue;
+.color4 {
+  background-color: rgb(21, 77, 67);
 }
 
-.teal {
-  background-color: teal;
+.color5 {
+  background-color: rgb(60, 97, 218);
 }
 
-.pink {
-  background-color: pink;
+.color6 {
+  background-color: rgb(130, 57, 214);
+}
+
+.color7 {
+  background-color: rgb(207, 60, 200);
+}
+
+.color8 {
+  background-color: rgb(218, 60, 94);
+}
+
+.color9 {
+  background-color: rgb(207, 143, 47);
+}
+
+.color10 {
+  background-color: rgb(201, 191, 48);
+}
+
+.color11 {
+  background-color: rgb(86, 218, 60);
+}
+
+.black {
+  background-color: black;
 }

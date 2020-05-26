@@ -66,25 +66,43 @@ const renderGameboard = () => {
 
     switch (el.value) {
       case 2:
-        x.classList.add("red");
+        x.classList.add("color1");
         break;
       case 4:
-        x.classList.add("yellow");
+        x.classList.add("color2");
         break;
       case 8:
-        x.classList.add("green");
+        x.classList.add("color3");
         break;
       case 16:
-        x.classList.add("blue");
+        x.classList.add("color4");
         break;
       case 32:
-        x.classList.add("teal");
+        x.classList.add("color5");
         break;
       case 64:
-        x.classList.add("pink");
+        x.classList.add("color6");
+        break;
+      case 128:
+        x.classList.add("color7");
+        break;
+      case 256:
+        x.classList.add("color8");
+        break;
+      case 512:
+        x.classList.add("color9");
+        break;
+      case 1024:
+        x.classList.add("color10");
+        break;
+      case 2048:
+        x.classList.add("color11");
         break;
 
       default:
+        if (el.value > 2048) {
+          x.classList.add("black");
+        }
         break;
     }
   });
@@ -303,5 +321,5 @@ const addNumber = () => {
 
   const gameSquare = document.getElementById(`s${nextSquare}`);
   gameSquare.textContent = "2";
-  gameSquare.classList.add("red");
+  gameSquare.classList.add("color1");
 };
