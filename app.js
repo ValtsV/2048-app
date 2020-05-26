@@ -170,7 +170,7 @@ const calcSquares = (a, b, c, d) => {
   d = squareElements[3];
 };
 
-// --------------------------
+// -------------------------- have to split this
 
 const checkForMovement = () => {
   let pressedDown = false;
@@ -192,7 +192,6 @@ const checkForMovement = () => {
   const func = () => {
     pressedDown = true;
     gameBoard.addEventListener("pointerup", func3, false);
-    console.log(event.pageX);
     x = event.pageX;
     y = event.pageY;
 
@@ -279,8 +278,6 @@ const checkForMovement = () => {
         default:
           break;
       }
-
-      // ------------------
     } else {
       // stops checking for coords after pointer is lifted
       gameBoard.removeEventListener("pointermove", func2);
@@ -291,43 +288,23 @@ const checkForMovement = () => {
 };
 // ------------------------------
 
-//Adds number in free space
+//Adds new number
 
 const addNumber = () => {
-  console.log(squares);
-  // const emptySquares = squares.map((square) => {
-  //   if (square.value == 0) {
-  //     return square.id;
-  //   }
-  // });
-
+  // makes array of empty squares
   const emptySquares = [];
   squares.forEach((el) => {
     if (el.value === 0) {
       emptySquares.push(el.id);
     }
   });
-
-  console.log(emptySquares);
-
+  // chooses next square for number to appear
   const nextSquare =
     emptySquares[Math.floor(Math.random() * Math.floor(emptySquares.length))];
-
-  console.log(nextSquare);
 
   squares[nextSquare - 1].value = 2;
 
   const gameSquare = document.getElementById(`s${nextSquare}`);
   gameSquare.textContent = "2";
   gameSquare.classList.add("red");
-  console.log("id of square:" + `s${nextSquare}`);
-
-  const x = emptySquares.findIndex((el) => el == nextSquare);
-  console.log("index is:" + x);
-
-  emptySquares.splice(x, 1);
-
-  console.log(emptySquares);
-
-  console.log(squares);
 };
